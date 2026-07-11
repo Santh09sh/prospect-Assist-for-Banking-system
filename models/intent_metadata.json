@@ -1,0 +1,68 @@
+{
+  "feature_names": [
+    "source_channel",
+    "intent_recency_days",
+    "intent_frequency_90d",
+    "digital_engagement_score",
+    "occupation_sector",
+    "existing_bank_relationship",
+    "inquiry_product",
+    "employment_years",
+    "city_tier",
+    "age",
+    "cashflow_cv",
+    "bounce_count_6m",
+    "salary_regularity_score"
+  ],
+  "metrics": {
+    "auc_roc": 0.6099,
+    "precision": 0.1474,
+    "recall": 0.925,
+    "f1_score": 0.2543,
+    "optimal_threshold": 0.0797,
+    "confusion_matrix": [
+      [
+        146,
+        214
+      ],
+      [
+        3,
+        37
+      ]
+    ],
+    "train_size": 1600,
+    "test_size": 400,
+    "conversion_rate_train": 0.1013,
+    "conversion_rate_test": 0.1
+  },
+  "label_encoders": {
+    "source_channel": [
+      "branch_walkin",
+      "campaign_click",
+      "partner",
+      "referral",
+      "website_organic"
+    ],
+    "occupation_sector": [
+      "gig_worker",
+      "other",
+      "retired",
+      "salaried_govt",
+      "salaried_pvt_it",
+      "salaried_pvt_other",
+      "self_employed_business",
+      "self_employed_professional"
+    ],
+    "inquiry_product": [
+      "auto_loan",
+      "home_loan",
+      "mortgage_loan_lap",
+      "personal_loan"
+    ],
+    "city_tier": [
+      "tier1",
+      "tier2",
+      "tier3"
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+Date,Narration,Debit,Credit,Balance
+01-01-2026,NEFT-Salary Credit Jan-ACME Corp,,75000,125000
+03-01-2026,UPI/Rent Payment to Landlord,18000,,107000
+05-01-2026,EMI Auto Debit - HDFC Personal Loan,12500,,94500
+08-01-2026,UPI/Electricity Bill - BESCOM,2100,,92400
+10-01-2026,UPI/BigBasket Grocery,3200,,89200
+12-01-2026,UPI/Swiggy Food Order,450,,88750
+15-01-2026,UPI/Amazon Shopping,5600,,83150
+18-01-2026,ATM Cash Withdrawal,5000,,78150
+20-01-2026,NEFT-Transfer from Friend,,10000,88150
+25-01-2026,UPI/Jio Fiber Internet,999,,87151
+28-01-2026,SIP Mutual Fund - Groww,5000,,82151
+01-02-2026,NEFT-Salary Credit Feb-ACME Corp,,76000,158151
+03-02-2026,UPI/Rent Payment to Landlord,18000,,140151
+05-02-2026,EMI Auto Debit - HDFC Personal Loan,12500,,127651
+07-02-2026,UPI/Water Bill Payment,800,,126851
+10-02-2026,UPI/Reliance Fresh,2800,,124051
+12-02-2026,UPI/Zomato Food,380,,123671
+14-02-2026,Card/Flipkart Purchase,8900,,114771
+17-02-2026,ATM Cash Withdrawal,3000,,111771
+22-02-2026,UPI/Electricity Bill - BESCOM,2300,,109471
+25-02-2026,UPI/Jio Fiber Internet,999,,108472
+28-02-2026,SIP Mutual Fund - Groww,5000,,103472
+01-03-2026,NEFT-Salary Credit Mar-ACME Corp,,74500,177972
+03-03-2026,UPI/Rent Payment to Landlord,18000,,159972
+05-03-2026,EMI Auto Debit - HDFC Personal Loan,12500,,147472
+08-03-2026,UPI/Electricity Bill - BESCOM,1950,,145522
+10-03-2026,UPI/BigBasket Grocery,4100,,141422
+13-03-2026,UPI/Swiggy Food Order,520,,140902
+15-03-2026,Card/Amazon Prime Subscription,1499,,139403
+18-03-2026,ATM Cash Withdrawal,4000,,135403
+20-03-2026,NEFT-Insurance Premium LIC,15000,,120403
+25-03-2026,UPI/Jio Fiber Internet,999,,119404
+28-03-2026,SIP Mutual Fund - Groww,5000,,114404
+01-04-2026,NEFT-Salary Credit Apr-ACME Corp,,75500,189904
+03-04-2026,UPI/Rent Payment to Landlord,18000,,171904
+05-04-2026,EMI Auto Debit - HDFC Personal Loan,12500,,159404
+08-04-2026,UPI/Gas Bill - Piped Gas,650,,158754
+12-04-2026,UPI/DMart Shopping,3500,,155254
+15-04-2026,UPI/BookMyShow Movie,600,,154654
+18-04-2026,ATM Cash Withdrawal,5000,,149654
+20-04-2026,UPI/Mobile Recharge Airtel,599,,149055
+25-04-2026,UPI/Jio Fiber Internet,999,,148056
+28-04-2026,SIP Mutual Fund - Groww,5000,,143056

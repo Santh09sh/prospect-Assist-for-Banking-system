@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Prospect Assist AI - AI-powered lead scoring for IDBI Bank retail lending. IDBI Innovate 2026.">
+    <title>Prospect Assist AI | IDBI Innovate 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css?v=5">
+</head>
+<body>
+    <!-- Welcome Modal -->
+    <div id="welcome-modal" class="modal-overlay active">
+        <div class="modal-content welcome-modal-content">
+            <div class="modal-header welcome-header">
+                <img src="/static/idbi-logo.png" alt="IDBI Bank" class="welcome-logo">
+                <h2>Welcome to Prospect Assist AI</h2>
+            </div>
+            <div class="modal-body welcome-body">
+                <p class="welcome-intro">Banks currently decide who is eligible for loans mainly using traditional data, such as:</p>
+                <div class="data-lists">
+                    <div class="data-list-col">
+                        <h4>Traditional Data</h4>
+                        <ul>
+                            <li>Credit score (CIBIL)</li>
+                            <li>Existing income documents</li>
+                            <li>Salary slips & IT returns</li>
+                            <li>Basic demographic details</li>
+                        </ul>
+                    </div>
+                    <div class="data-list-col highlight-col">
+                        <h4>Our AI Analyzes</h4>
+                        <ul>
+                            <li><strong>Transaction Data:</strong> Bank account credits/debits, UPI transactions, Salary patterns, EMI payments, Utility bill payments, Spending habits</li>
+                            <li><strong>Behavioral Data:</strong> Mobile banking activity, Loan inquiry behavior, Product browsing patterns, Frequency of checking loan offers, Past loan repayment behavior</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer welcome-footer">
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="accept-terms">
+                    <label for="accept-terms">I have read and accept the terms and conditions</label>
+                </div>
+                <button id="welcome-proceed-btn" class="btn btn-primary" disabled>Proceed to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Expansion Modal -->
+    <div id="chart-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 900px; width: 90%; max-height: 90vh; display: flex; flex-direction: column;">
+            <div class="modal-header">
+                <h2 id="chart-modal-title">Chart Title</h2>
+                <button id="chart-modal-close" class="drawer-close" style="position: absolute; right: 20px; top: 20px; border: none; background: transparent; cursor: pointer; color: var(--text-muted);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 20px; overflow-y: auto; flex: 1;">
+                <div id="chart-modal-body" style="width: 100%; height: 400px; margin-bottom: 20px;"></div>
+                <div class="chart-description" style="background: var(--bg-surface-2); padding: 16px; border-radius: 8px; border: 1px solid var(--border);">
+                    <h4 style="margin-bottom: 8px; color: var(--text-primary); font-size: 14px;">How to interpret this chart</h4>
+                    <p id="chart-modal-desc" style="color: var(--text-secondary); font-size: 13px; line-height: 1.5;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Metric Detail Modal -->
+    <div id="metric-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 550px; width: 90%; max-height: 90vh; display: flex; flex-direction: column;">
+            <div class="modal-header" style="border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+                <h2 id="metric-modal-title" style="font-size: 18px; color: var(--text-primary); margin: 0;">Metric Title</h2>
+                <button id="metric-modal-close" class="drawer-close" style="position: absolute; right: 20px; top: 20px; border: none; background: transparent; cursor: pointer; color: var(--text-muted);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 20px;">
+                <div style="text-align: center; padding: 24px; background: var(--bg-surface-2); border-radius: 8px; border: 1px solid var(--border);">
+                    <div id="metric-modal-value" style="font-size: 48px; font-weight: 700; color: var(--brand); line-height: 1.1; margin-bottom: 8px;">0.00</div>
+                    <div id="metric-modal-sub" style="font-size: 12px; color: var(--text-muted);">Current Value</div>
+                </div>
+                
+                <div>
+                    <h4 style="color: var(--text-primary); font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 600;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        What does this mean?
+                    </h4>
+                    <p id="metric-modal-desc" style="color: var(--text-secondary); font-size: 13.5px; line-height: 1.6;"></p>
+                </div>
+                
+                <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.15); padding: 16px; border-radius: 8px;">
+                    <h4 style="color: var(--brand); font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 600;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        Business Action (Takeaway)
+                    </h4>
+                    <p id="metric-modal-action" style="color: var(--text-secondary); font-size: 13.5px; line-height: 1.6; font-style: italic;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="/static/idbi-logo.png" alt="IDBI Bank" class="logo-icon-img">
+                <div class="logo-text">
+                    <span class="logo-title">Prospect Assist</span>
+                    <span class="logo-subtitle">IDBI Innovate 2026</span>
+                </div>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item active" data-tab="analytics" id="nav-analytics">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="leads" id="nav-leads">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Lead List</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="batch" id="nav-batch">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <span>Batch Upload</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="realtime" id="nav-realtime">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>Real-Time Score</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="statement" id="nav-statement">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span>Statement Analyzer</span>
+            </a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="api-link">
+                <a href="/docs" target="_blank">API Documentation ↗</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- ═══════ LEADS TAB ═══════ -->
+        <div class="tab-content" id="tab-leads">
+            <div class="page-header">
+                <div>
+                    <h1>Lead Pipeline</h1>
+                    <p class="page-subtitle">AI-prioritized prospects ranked by intent score</p>
+                </div>
+                <div class="header-stats" id="header-stats"></div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all" id="filter-all">All</button>
+                    <button class="filter-btn hot" data-filter="hot" id="filter-hot">High Intent</button>
+                    <button class="filter-btn warm" data-filter="warm" id="filter-warm">Medium Intent</button>
+                    <button class="filter-btn cold" data-filter="cold" id="filter-cold">Low Intent</button>
+                    <button class="filter-btn not-eligible" data-filter="not_eligible" id="filter-not-eligible">Not Eligible</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="Search customer ID..." id="search-input">
+                </div>
+            </div>
+
+            <!-- Lead Table -->
+            <div class="table-container">
+                <table class="lead-table" id="lead-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="rank" style="width:60px">Rank</th>
+                            <th style="width:90px">Tier</th>
+                            <th data-sort="customer_id">ID</th>
+                            <th data-sort="intent_score">Intent Score</th>
+                            <th data-sort="recommended_amount">Amount</th>
+                            <th>Product</th>
+                            <th>Top Factor</th>
+                            <th>Source</th>
+                            <th>Income</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lead-tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+        </div>
+
+        <!-- ═══════ SLIDE-OUT DRAWER (Replaces Modal) ═══════ -->
+        <div class="drawer-overlay" id="drawer-overlay"></div>
+        <div class="drawer-panel" id="detail-drawer">
+            <div class="drawer-header">
+                <div class="drawer-customer-info">
+                    <div class="drawer-customer-name" id="drawer-id">Loading...</div>
+                    <div class="drawer-customer-meta" id="drawer-meta"></div>
+                </div>
+                <div class="drawer-score-block" id="drawer-score"></div>
+                <button class="drawer-close" id="drawer-close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="drawer-body" id="drawer-body">
+                <!-- Content injected by app.js -->
+            </div>
+        </div>
+
+        <!-- ═══════ ANALYTICS TAB ═══════ -->
+        <div class="tab-content active" id="tab-analytics">
+            <div class="page-header">
+                <div>
+                    <h1>Analytics</h1>
+                    <p class="page-subtitle">Model performance and conversion intelligence</p>
+                </div>
+            </div>
+
+            <!-- Headline Banner -->
+            <div class="hero-stats" id="hero-stats"></div>
+
+            <!-- Metrics Cards -->
+            <div class="metrics-grid" id="metrics-grid"></div>
+
+            <!-- Charts Row 1 -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <h3>Cumulative Lift</h3>
+                    <div id="lift-chart" style="width:100%;height:320px;"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Conversion by Quintile</h3>
+                    <div id="conversion-bar" style="width:100%;height:320px;"></div>
+                </div>
+            </div>
+
+            <!-- Charts Row 2 -->
+            <div class="charts-row charts-row-3">
+                <div class="chart-card">
+                    <h3>Lead Funnel</h3>
+                    <div id="funnel-chart" style="width:100%;height:280px;"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Conversion by Tier</h3>
+                    <div id="tier-chart" style="width:100%;height:280px;"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Confusion Matrix</h3>
+                    <div id="confusion-matrix" style="width:100%;min-height:200px;display:flex;align-items:center;justify-content:center;"></div>
+                </div>
+            </div>
+
+            <!-- AI Chatbot Section -->
+            <div class="chat-section" style="margin-top: 24px;">
+                <div class="chart-card" style="display: flex; flex-direction: column; height: 500px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <h3 style="margin: 0;">AI Analytics Assistant</h3>
+                    </div>
+                    <div id="chat-messages" style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: var(--bg-page); border-radius: 8px; margin-bottom: 16px; border: 1px solid var(--border);">
+                        <div class="message ai-message" style="align-self: flex-start; background: var(--bg-surface-2); color: var(--text-primary); padding: 12px 16px; border-radius: 12px 12px 12px 0; max-width: 80%; border: 1px solid var(--border); font-size: 13px;">
+                            Hello! I am your AI Analytics Assistant. You can ask me questions about the data, model performance, or lead conversion. How can I help you today?
+                        </div>
+                    </div>
+                    <div class="chat-input-container" style="display: flex; gap: 8px;">
+                        <input type="text" id="chat-input" placeholder="Ask a question about the analytics data..." style="flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-page); color: var(--text-primary); font-size: 14px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='var(--border)'">
+                        <button id="chat-send-btn" class="btn btn-primary" style="padding: 0 24px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════ BATCH TAB ═══════ -->
+        <div class="tab-content" id="tab-batch">
+            <div class="page-header">
+                <div>
+                    <h1>Batch Upload</h1>
+                    <p class="page-subtitle">Score bulk prospects via CSV</p>
+                </div>
+            </div>
+
+            <div class="batch-container">
+                <div class="upload-area" id="upload-area">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <h3>Drag and drop CSV here</h3>
+                    <p>Required columns: customer_id, est_monthly_income, existing_obligations</p>
+                    <input type="file" id="batch-file" accept=".csv" hidden>
+                </div>
+                <div class="batch-result" id="batch-result" style="display:none;">
+                    <div class="batch-status" id="batch-status"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════ REAL-TIME TAB (STEPPED FORM) ═══════ -->
+        <div class="tab-content" id="tab-realtime">
+            <div class="page-header">
+                <div>
+                    <h1>Real-Time Score</h1>
+                    <p class="page-subtitle">Score a walk-in prospect instantly</p>
+                </div>
+            </div>
+
+            <div class="realtime-container">
+                <!-- Step Indicator -->
+                <div class="step-indicator" id="step-indicator">
+                    <div class="step-item active" data-step="1">
+                        <div class="step-dot">1</div> Personal
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-item" data-step="2">
+                        <div class="step-dot">2</div> Financial
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-item" data-step="3">
+                        <div class="step-dot">3</div> Behavioral
+                    </div>
+                </div>
+
+                <form class="score-form" id="score-form">
+                    <!-- Step 1: Personal -->
+                    <div class="form-step active" id="step-1">
+                        <div class="form-step-title">Personal Information</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="number" name="age" value="35" min="18" max="70" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Occupation Sector</label>
+                                <select name="occupation_sector" required>
+                                    <option value="salaried_govt">Salaried - Govt</option>
+                                    <option value="salaried_pvt_it" selected>Salaried - IT</option>
+                                    <option value="salaried_pvt_other">Salaried - Other</option>
+                                    <option value="self_employed_professional">Self Employed - Professional</option>
+                                    <option value="self_employed_business">Self Employed - Business</option>
+                                    <option value="gig_worker">Gig Worker</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Employment Years</label>
+                                <input type="number" name="employment_years" value="8" min="0" step="0.5" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Education</label>
+                                <select name="education_level">
+                                    <option value="graduate" selected>Graduate</option>
+                                    <option value="post_graduate">Post Graduate</option>
+                                    <option value="professional_degree">Professional Degree</option>
+                                    <option value="diploma">Diploma</option>
+                                    <option value="12th_pass">12th Pass</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>City Tier</label>
+                                <select name="city_tier">
+                                    <option value="tier1" selected>Tier 1</option>
+                                    <option value="tier2">Tier 2</option>
+                                    <option value="tier3">Tier 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions" style="justify-content: flex-end;">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next Step</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Financial -->
+                    <div class="form-step" id="step-2">
+                        <div class="form-step-title">Financial Information</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Monthly Income (INR)</label>
+                                <input type="number" name="est_monthly_income" value="75000" min="5000" step="1000" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Existing EMI Obligations (INR/mo)</label>
+                                <input type="number" name="existing_obligations" value="12000" min="0" step="500">
+                            </div>
+                            <div class="form-group">
+                                <label>Credit Bureau Score</label>
+                                <input type="number" name="credit_bureau_score" value="720" min="300" max="900">
+                            </div>
+                            <div class="form-group">
+                                <label>Existing Customer</label>
+                                <select name="existing_bank_relationship">
+                                    <option value="false">No</option>
+                                    <option value="true">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Back</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next Step</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Behavioral -->
+                    <div class="form-step" id="step-3">
+                        <div class="form-step-title">Behavioral Signals</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Source Channel</label>
+                                <select name="source_channel">
+                                    <option value="branch_walkin" selected>Branch Walk-in</option>
+                                    <option value="website_organic">Website</option>
+                                    <option value="campaign_click">Campaign</option>
+                                    <option value="referral">Referral</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Inquiry Product</label>
+                                <select name="inquiry_product">
+                                    <option value="personal_loan" selected>Personal Loan</option>
+                                    <option value="home_loan">Home Loan</option>
+                                    <option value="mortgage_loan_lap">Mortgage Loan (LAP)</option>
+                                    <option value="auto_loan">Auto Loan</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>App Logins (last 30 days)</label>
+                                <input type="number" name="app_logins_30d" value="5" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>EMI Calc Uses (last 30 days)</label>
+                                <input type="number" name="emi_calculator_uses_30d" value="3" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Product Page Visits (last 30 days)</label>
+                                <input type="number" name="product_page_visits_30d" value="4" min="0">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Back</button>
+                            <button type="submit" class="btn btn-primary" id="score-submit-btn">Score Prospect</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="score-result" id="score-result" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- ═══════ STATEMENT ANALYZER TAB ═══════ -->
+        <div class="tab-content" id="tab-statement">
+            <div class="page-header">
+                <div>
+                    <h1>Statement Analyzer</h1>
+                    <p class="page-subtitle">Upload a bank statement (3–12 months) to get a full eligibility & intent score</p>
+                </div>
+                <span class="optional-badge">Optional Feature</span>
+            </div>
+
+            <div class="statement-container">
+                <!-- Upload Zone -->
+                <div class="statement-upload-zone" id="statement-upload-zone">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    <h3>Upload Bank Statement</h3>
+                    <p>Drag & drop your bank statement (CSV or PDF) or click to browse</p>
+                    <div class="upload-requirements">
+                        <span>Minimum 3 months</span>
+                        <span class="sep">•</span>
+                        <span>CSV or PDF format</span>
+                    </div>
+                    <input type="file" id="statement-file" accept=".csv, .pdf" hidden>
+                </div>
+
+                <!-- Expected Format Guide -->
+                <details class="format-guide">
+                    <summary>Expected CSV Format</summary>
+                    <div class="format-table-wrapper">
+                        <table class="format-table">
+                            <thead>
+                                <tr><th>Date</th><th>Narration</th><th>Debit</th><th>Credit</th><th>Balance</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>01-01-2026</td><td>NEFT-Salary-Jan</td><td></td><td>75,000</td><td>1,25,000</td></tr>
+                                <tr><td>05-01-2026</td><td>UPI/Rent Payment</td><td>18,000</td><td></td><td>1,07,000</td></tr>
+                                <tr><td>10-01-2026</td><td>EMI Auto Debit - HDFC</td><td>12,500</td><td></td><td>94,500</td></tr>
+                                <tr><td>15-01-2026</td><td>UPI/Electricity Bill</td><td>2,100</td><td></td><td>92,400</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+
+                <!-- Optional Profile Section -->
+                <details class="profile-section" id="statement-profile-section">
+                    <summary>Optional: Add Profile Details <span class="profile-hint">(improves accuracy for non-salaried profiles)</span></summary>
+                    <div class="profile-grid">
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="number" id="stmt-age" value="35" min="18" max="70">
+                        </div>
+                        <div class="form-group">
+                            <label>Occupation</label>
+                            <select id="stmt-occupation">
+                                <option value="salaried_govt">Salaried - Govt</option>
+                                <option value="salaried_pvt_it">Salaried - IT</option>
+                                <option value="salaried_pvt_other" selected>Salaried - Other</option>
+                                <option value="self_employed_professional">Self Employed - Professional</option>
+                                <option value="self_employed_business">Self Employed - Business</option>
+                                <option value="gig_worker">Gig Worker</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>City Tier</label>
+                            <select id="stmt-city-tier">
+                                <option value="tier1">Tier 1</option>
+                                <option value="tier2" selected>Tier 2</option>
+                                <option value="tier3">Tier 3</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Education</label>
+                            <select id="stmt-education">
+                                <option value="graduate" selected>Graduate</option>
+                                <option value="post_graduate">Post Graduate</option>
+                                <option value="professional_degree">Professional Degree</option>
+                                <option value="diploma">Diploma</option>
+                                <option value="12th_pass">12th Pass</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Credit Bureau Score</label>
+                            <input type="number" id="stmt-cibil" placeholder="Optional" min="300" max="900">
+                        </div>
+                        <div class="form-group">
+                            <label>Inquiry Product</label>
+                            <select id="stmt-inquiry-product">
+                                <option value="personal_loan" selected>Personal Loan</option>
+                                <option value="home_loan">Home Loan</option>
+                                <option value="mortgage_loan_lap">Mortgage Loan (LAP)</option>
+                                <option value="auto_loan">Auto Loan</option>
+                            </select>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Results Area -->
+                <div class="statement-results" id="statement-results" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/app.js?v=5"></script>
+</body>
+</html>

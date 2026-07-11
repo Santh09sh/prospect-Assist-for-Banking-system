@@ -1,0 +1,10 @@
+{
+  "total": 2000,
+  "eligible": 1993,
+  "not_eligible": 7,
+  "hot": 547,
+  "warm": 683,
+  "cold": 763,
+  "eligible_pct": 99.7,
+  "hot_pct": 27.4
+}
