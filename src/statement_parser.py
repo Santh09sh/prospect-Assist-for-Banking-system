@@ -321,12 +321,12 @@ def parse_bank_statement(df: pd.DataFrame) -> Tuple[pd.DataFrame, Dict]:
     txns_df = pd.DataFrame(txns)
     txns_df["txn_date"] = pd.to_datetime(txns_df["txn_date"])
 
-    # Validate: minimum 3 months
+    # Validate: minimum 2 months
     months_covered = txns_df["txn_date"].dt.to_period("M").nunique()
-    if months_covered < 3:
+    if months_covered < 2:
         raise ValueError(
             f"Statement covers only {months_covered} month(s). "
-            f"Minimum 3 months of data is required for accurate scoring."
+            f"Minimum 2 months of data is required for accurate scoring."
         )
 
     metadata.update({
