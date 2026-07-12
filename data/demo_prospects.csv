@@ -1,0 +1,11 @@
+customer_id,customer_name,age,gender,occupation_sector,employment_years,education_level,city_tier,existing_bank_relationship,existing_products,declared_existing_emis,source_channel,inquiry_product,inquiry_date,inquiry_count_90d,app_logins_30d,emi_calculator_uses_30d,product_page_visits_30d,credit_bureau_score,monthly_income_actual,converted
+CUST_00001,Aryan Maharaj,22,F,self_employed_business,1.0,below_10th,tier3,False,,13769.0,partner,mortgage_loan_lap,2026-04-17,1,4,1,4,608.0,131128.34,False
+CUST_00002,Udant Dewan,43,M,salaried_pvt_other,19.0,diploma,tier2,False,,9055.0,referral,home_loan,2026-05-11,1,5,0,6,607.0,120000.0,False
+CUST_00003,Gagan Sami,43,M,self_employed_professional,7.9,professional_degree,tier2,False,,0.0,website_organic,mortgage_loan_lap,2026-05-30,2,2,4,4,493.0,106862.15,False
+CUST_00004,Ayushman Chander,60,M,self_employed_business,11.0,post_graduate,tier3,False,,0.0,referral,home_loan,2026-04-22,3,1,2,5,624.0,122607.88,False
+CUST_00005,Viraj Tiwari,24,M,gig_worker,3.8,12th_pass,tier1,False,,5124.0,website_organic,auto_loan,2026-06-24,3,4,2,6,626.0,23905.4,False
+CUST_00006,Rushil Saini,35,F,self_employed_business,8.3,diploma,tier2,False,,39818.0,referral,mortgage_loan_lap,2026-06-11,5,5,4,6,676.0,200000.0,True
+CUST_00007,Saumya Mall,27,M,salaried_govt,1.7,graduate,tier1,False,,0.0,website_organic,personal_loan,2026-04-13,1,6,0,6,,55180.67,False
+CUST_00008,Nathaniel Sami,51,F,salaried_govt,22.4,graduate,tier3,False,,10673.0,branch_walkin,mortgage_loan_lap,2026-04-27,4,5,0,0,759.0,67423.84,False
+CUST_00009,Arunima Dugal,38,M,salaried_pvt_it,15.5,post_graduate,tier2,False,,0.0,campaign_click,auto_loan,2026-06-19,2,11,1,4,597.0,115776.81,False
+CUST_00010,Gayathri Chaudry,22,M,self_employed_professional,2.0,post_graduate,tier1,False,,10589.0,partner,personal_loan,2026-04-17,4,3,2,6,,95115.95,False

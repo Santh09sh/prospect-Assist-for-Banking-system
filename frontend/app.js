@@ -3,7 +3,7 @@
  * IDBI Innovate 2026 · PS2 (Mercury-Inspired Redesign)
  */
 
-const API_BASE = '';
+const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost' || window.location.protocol === 'file:') && window.location.port !== '8000' ? 'http://localhost:8000' : '';
 
 // ═══════ STATE ═══════
 let state = {
@@ -912,8 +912,14 @@ async function handleStatementUpload(file) {
         });
 
         if (!res.ok) {
-            const err = await res.json();
-            throw new Error(err.detail || 'Analysis failed');
+            let errMsg = 'Analysis failed';
+            try {
+                const err = await res.json();
+                errMsg = err.detail || errMsg;
+            } catch (e) {
+                errMsg = `Server error (${res.status})`;
+            }
+            throw new Error(errMsg);
         }
 
         const data = await res.json();
