@@ -67,6 +67,9 @@ The CSV MUST have exactly these columns: Date, Narration, Debit, Credit, Balance
 - Credit: Amount added (leave blank if debit).
 - Balance: The running balance.
 
+CRITICAL INSTRUCTION FOR LONG STATEMENTS:
+If the statement contains hundreds of transactions, DO NOT output all of them (to avoid truncation). Instead, output a representative sample of up to 150 transactions, ensuring that you include transactions from the VERY BEGINNING, the MIDDLE, and the VERY END of the statement. It is critical that the output spans the entire date range of the statement.
+
 Return ONLY the raw CSV text. Do NOT wrap it in markdown block quotes like ```csv ... ```. Do NOT include any explanations."""
 
     prompt = f"{system_instruction}\n\nExtract transactions from this text:\n\n{text}"

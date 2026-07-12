@@ -191,6 +191,8 @@ def compute_cashflow_features(txns_customer: pd.DataFrame) -> dict:
 
     avg_net = monthly["net_cashflow"].mean()
     std_net = monthly["net_cashflow"].std()
+    if pd.isna(std_net):
+        std_net = 0.0
     cv = std_net / abs(avg_net) if abs(avg_net) > 0 else 2.0
 
     # Bounce events
