@@ -484,10 +484,10 @@ async def score_statement(
         if filename.endswith(".pdf"):
             # Use the AI PDF extractor to convert PDF text to CSV bytes
             csv_bytes = extract_csv_from_pdf(contents, pdf_password)
-            raw_df = pd.read_csv(io.BytesIO(csv_bytes))
+            raw_df = pd.read_csv(io.BytesIO(csv_bytes), on_bad_lines='skip')
         else:
             # Assume CSV by default
-            raw_df = pd.read_csv(io.BytesIO(contents))
+            raw_df = pd.read_csv(io.BytesIO(contents), on_bad_lines='skip')
             
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid file or parsing failed: {str(e)}")

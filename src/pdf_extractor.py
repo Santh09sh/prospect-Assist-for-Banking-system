@@ -45,8 +45,8 @@ def extract_csv_from_pdf(pdf_bytes: bytes, pdf_password: Optional[str] = None) -
             else:
                 raise ValueError("The PDF is password protected. Please provide a password.")
                 
-        # Take the first 10 pages
-        for page in reader.pages[:10]:
+        # Take the first 30 pages
+        for page in reader.pages[:30]:
             extracted = page.extract_text()
             if extracted:
                 text += extracted + "\n"
@@ -62,7 +62,7 @@ def extract_csv_from_pdf(pdf_bytes: bytes, pdf_password: Optional[str] = None) -
 Your task is to extract bank transactions from the provided raw PDF text and format them STRICTLY as a CSV.
 The CSV MUST have exactly these columns: Date, Narration, Debit, Credit, Balance
 - Date: Keep the date format as is, or YYYY-MM-DD.
-- Narration: The transaction description.
+- Narration: The transaction description. YOU MUST ENCLOSE THIS ENTIRE FIELD IN DOUBLE QUOTES (e.g., "UPI/John, Doe") so that any commas inside the text do not break the CSV format.
 - Debit: Amount deducted (leave blank if credit).
 - Credit: Amount added (leave blank if debit).
 - Balance: The running balance.
